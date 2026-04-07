@@ -51,7 +51,6 @@
 										<td>Kode</td>
 										<td>Nama</td>
 										<td>Username</td>
-										<td>Password</td>
 										<td>Aksi</td>
 									</tr>
 								</thead>
@@ -59,10 +58,9 @@
 									<?php foreach ($all_pengguna as $pengguna): ?>
 										<tr>
 											<td><?= $no++ ?></td>
-											<td><?= $pengguna->kode ?></td>
-											<td><?= $pengguna->nama ?></td>
-											<td><?= $pengguna->username ?></td>
-											<td><?= $pengguna->password ?></td>
+											<td><?= htmlspecialchars($pengguna->kode, ENT_QUOTES, 'UTF-8') ?></td>
+											<td><?= htmlspecialchars($pengguna->nama, ENT_QUOTES, 'UTF-8') ?></td>
+											<td><?= htmlspecialchars($pengguna->username, ENT_QUOTES, 'UTF-8') ?></td>
 											<td>
 												<a href="<?= base_url('pengguna/ubah/' . $pengguna->id) ?>" class="btn btn-success btn-sm"><i class="fa fa-pen"></i></a>
 												<a onclick="return confirm('apakah anda yakin?')" href="<?= base_url('pengguna/hapus/' . $pengguna->id) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>

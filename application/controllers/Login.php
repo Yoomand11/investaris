@@ -28,7 +28,7 @@ class Login extends CI_Controller{
 	protected function _proses_login_petugas($username){
 		$get_petugas = $this->m_petugas->lihat_username($username);
 		if($get_petugas){
-			if($get_petugas->password == $this->input->post('password')){
+			if(password_verify($this->input->post('password'), $get_petugas->password) || $get_petugas->password == $this->input->post('password')){
 				$session = [
 					'kode' => $get_petugas->kode,
 					'nama' => $get_petugas->nama,
@@ -54,7 +54,7 @@ class Login extends CI_Controller{
 	protected function _proses_login_admin($username){
 		$get_pengguna = $this->m_pengguna->lihat_username($username);
 		if($get_pengguna){
-			if($get_pengguna->password == $this->input->post('password')){
+			if(password_verify($this->input->post('password'), $get_pengguna->password) || $get_pengguna->password == $this->input->post('password')){
 				$session = [
 					'kode' => $get_pengguna->kode,
 					'nama' => $get_pengguna->nama,

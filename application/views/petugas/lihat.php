@@ -54,7 +54,6 @@
 										<td>Nama</td>
 										<td>Username</td>
 										<?php if ($this->session->login['role'] == 'admin'): ?>
-											<td>Password</td>
 											<td>Aksi</td>
 										<?php  endif ?>
 									</tr>
@@ -63,11 +62,10 @@
 									<?php foreach ($all_petugas as $petugas): ?>
 										<tr>
 											<td><?= $no++ ?></td>
-											<td><?= $petugas->kode ?></td>
-											<td><?= $petugas->nama ?></td>
-											<td><?= $petugas->username ?></td>
+											<td><?= htmlspecialchars($petugas->kode, ENT_QUOTES, 'UTF-8') ?></td>
+											<td><?= htmlspecialchars($petugas->nama, ENT_QUOTES, 'UTF-8') ?></td>
+											<td><?= htmlspecialchars($petugas->username, ENT_QUOTES, 'UTF-8') ?></td>
 											<?php if($this->session->login['role'] == 'admin'): ?>
-												<td><?= $petugas->password ?></td>
 												<td>
 													<a href="<?= base_url('petugas/ubah/' . $petugas->id) ?>" class="btn btn-success btn-sm"><i class="fa fa-pen"></i></a>
 													<a onclick="return confirm('apakah anda yakin?')" href="<?= base_url('petugas/hapus/' . $petugas->id) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>

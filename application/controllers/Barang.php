@@ -36,32 +36,31 @@ class Barang extends CI_Controller{
 			redirect('dashboard');
 		}
 
-		$file= $_FILES['foto_barang'];
-		$path= 'upload';
-		$config['upload_path'] = $path;
-		$config['allowed_types'] = 'pdf|png|jpg';
-		$this->load->library('upload', $config);
-		$this->upload->initialize($config);
-		if (!$this->upload->do_upload('file')) {
-			
-			$error = array('error' => $this->upload->display_errors());
-     
-		}else {
-			$data = array('upload_data' => $this->upload->data());
-			
-		}
-		if (!$this->upload->data('file_name')) {
-			$file = 'Tidak Ada File';
-		}else{
-			$file = $this->upload->data('file_name');
+		$foto_barang = 'tidak_ada_foto.png';
+
+		if (!empty($_FILES['foto_barang']['name'])) {
+			$config['upload_path']   = FCPATH . 'upload/';
+			$config['allowed_types'] = 'png|jpg|jpeg|gif';
+			$config['max_size']      = 2048;
+			$config['file_name']     = 'barang_' . time();
+
+			$this->load->library('upload', $config);
+
+			if ($this->upload->do_upload('foto_barang')) {
+				$foto_barang = $this->upload->data('file_name');
+			} else {
+				$this->session->set_flashdata('error', 'Upload foto gagal: ' . strip_tags($this->upload->display_errors()));
+				redirect('barang/tambah');
+				return;
+			}
 		}
 
 		$data = [
-			'kode_barang' => $this->input->post('kode_barang'),
-			'nama_barang' => $this->input->post('nama_barang'),
-			'foto_barang' => $this->input->post('foto_barang'),
-			'stok' => $this->input->post('stok'),
-			'satuan' => $this->input->post('satuan'),
+			'kode_barang'  => $this->input->post('kode_barang'),
+			'nama_barang'  => $this->input->post('nama_barang'),
+			'foto_barang'  => $foto_barang,
+			'stok'         => $this->input->post('stok'),
+			'satuan'       => $this->input->post('satuan'),
 		];
 
 		if($this->m_barang->tambah($data)){
@@ -91,11 +90,37 @@ class Barang extends CI_Controller{
 			redirect('dashboard');
 		}
 
+		// Ambil data lama untuk foto
+		$barang_lama = $this->m_barang->lihat_id($kode_barang);
+		$foto_barang = $barang_lama->foto_barang ?? 'tidak_ada_foto.png';
+
+		if (!empty($_FILES['foto_barang']['name'])) {
+			$config['upload_path']   = FCPATH . 'upload/';
+			$config['allowed_types'] = 'png|jpg|jpeg|gif';
+			$config['max_size']      = 2048;
+			$config['file_name']     = 'barang_' . time();
+
+			$this->load->library('upload', $config);
+
+			if ($this->upload->do_upload('foto_barang')) {
+				// Hapus foto lama jika bukan default
+				if ($foto_barang !== 'tidak_ada_foto.png' && file_exists(FCPATH . 'upload/' . $foto_barang)) {
+					@unlink(FCPATH . 'upload/' . $foto_barang);
+				}
+				$foto_barang = $this->upload->data('file_name');
+			} else {
+				$this->session->set_flashdata('error', 'Upload foto gagal: ' . strip_tags($this->upload->display_errors()));
+				redirect('barang/ubah/' . $kode_barang);
+				return;
+			}
+		}
+
 		$data = [
-			'kode_barang' => $this->input->post('kode_barang'),
-			'nama_barang' => $this->input->post('nama_barang'),
-			'stok' => $this->input->post('stok'),
-			'satuan' => $this->input->post('satuan'),
+			'kode_barang'  => $this->input->post('kode_barang'),
+			'nama_barang'  => $this->input->post('nama_barang'),
+			'foto_barang'  => $foto_barang,
+			'stok'         => $this->input->post('stok'),
+			'satuan'       => $this->input->post('satuan'),
 		];
 
 		if($this->m_barang->ubah($data, $kode_barang)){

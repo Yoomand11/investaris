@@ -6,6 +6,7 @@ class Pengeluaran extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		date_default_timezone_set('Asia/Jakarta');
+		if($this->session->login['role'] != 'petugas' && $this->session->login['role'] != 'admin') redirect();
 		$this->data['aktif'] = 'pengeluaran';
 		$this->load->model('M_barang', 'm_barang');
 		$this->load->model('M_customer', 'm_customer');

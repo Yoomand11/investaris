@@ -41,10 +41,10 @@ class Pengguna extends CI_Controller {
 		}
 
 		$data = [
-			'kode' => $this->input->post('kode'),
-			'nama' => $this->input->post('nama'),
+			'kode'     => $this->input->post('kode'),
+			'nama'     => $this->input->post('nama'),
 			'username' => $this->input->post('username'),
-			'password' => $this->input->post('password'),
+			'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
 		];
 
 		if($this->m_pengguna->tambah($data)){
@@ -74,11 +74,12 @@ class Pengguna extends CI_Controller {
 			redirect('dashboard');
 		}
 
+		$new_pass = $this->input->post('password');
 		$data = [
-			'kode' => $this->input->post('kode'),
-			'nama' => $this->input->post('nama'),
+			'kode'     => $this->input->post('kode'),
+			'nama'     => $this->input->post('nama'),
 			'username' => $this->input->post('username'),
-			'password' => $this->input->post('password'),
+			'password' => !empty($new_pass) ? password_hash($new_pass, PASSWORD_DEFAULT) : $this->m_pengguna->lihat_id($id)->password,
 		];
 
 		if($this->m_pengguna->ubah($data, $id)){

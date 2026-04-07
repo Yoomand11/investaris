@@ -63,9 +63,15 @@
 									<?php foreach ($all_barang as $barang): ?>
 										<tr>
 											<td><?= $no++ ?></td>
-											<td><?= $barang->kode_barang ?></td>
-											<td><?= $barang->nama_barang ?></td>
-											<td><?= $barang->foto_barang ?></td>
+											<td><?= htmlspecialchars($barang->kode_barang, ENT_QUOTES, 'UTF-8') ?></td>
+											<td><?= htmlspecialchars($barang->nama_barang, ENT_QUOTES, 'UTF-8') ?></td>
+												<td>
+										<?php if (!empty($barang->foto_barang) && $barang->foto_barang !== 'tidak_ada_foto.png'): ?>
+											<img src="<?= base_url('upload/' . $barang->foto_barang) ?>" alt="<?= $barang->nama_barang ?>" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">
+										<?php else: ?>
+											<span class="text-muted"><i>Tidak ada foto</i></span>
+										<?php endif; ?>
+									</td>
 											<td><?= $barang->stok ?> <?= strtoupper($barang->satuan) ?></td>
 											<?php if ($this->session->login['role'] == 'admin'): ?>
 												<td>

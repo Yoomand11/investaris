@@ -64,11 +64,11 @@
 								<?php foreach ($all_customer as $customer): ?>
 									<tr>
 										<td><?= $no++ ?></td>
-										<td><?= $customer->kode ?></td>
-										<td><?= $customer->nama ?></td>
-										<td><?= $customer->telepon ?></td>
-										<td><?= $customer->email ?></td>
-										<td><?= $customer->alamat ?></td>
+										<td><?= htmlspecialchars($customer->kode, ENT_QUOTES, 'UTF-8') ?></td>
+										<td><?= htmlspecialchars($customer->nama, ENT_QUOTES, 'UTF-8') ?></td>
+										<td><?= htmlspecialchars($customer->telepon, ENT_QUOTES, 'UTF-8') ?></td>
+										<td><?= htmlspecialchars($customer->email, ENT_QUOTES, 'UTF-8') ?></td>
+										<td><?= htmlspecialchars($customer->alamat, ENT_QUOTES, 'UTF-8') ?></td>
 										<?php if ($this->session->login['role'] == 'admin'): ?>
 										<td>
 											<a href="<?= base_url('customer/ubah/' . $customer->kode) ?>" class="btn btn-success btn-sm"><i class="fa fa-pen"></i></a>

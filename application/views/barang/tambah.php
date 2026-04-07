@@ -29,7 +29,7 @@
 						<div class="card shadow">
 							<div class="card-header"><strong>Isi Form Dibawah Ini!</strong></div>
 							<div class="card-body">
-								<form action="<?= base_url('barang/proses_tambah') ?>" id="form-tambah" method="POST">
+								<form action="<?= base_url('barang/proses_tambah') ?>" id="form-tambah" method="POST" enctype="multipart/form-data">
 									<div class="form-row">
 										<div class="form-group col-md-6">
 											<label for="kode_barang"><strong>Kode Barang</strong></label>
@@ -41,7 +41,7 @@
 										</div>
 										<div class="form-group col-md-6">
 											<label for="foto_barang"><strong>Foto Barang</strong></label>
-											<input type="file" name="foto_barang" id="foto_barang" class="form-control" required>
+											<input type="file" name="foto_barang" id="foto_barang" class="form-control" accept="image/*">
 										</div>
 									</div>
 									<div class="form-row">

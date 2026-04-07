@@ -29,7 +29,7 @@
 						<div class="card shadow">
 							<div class="card-header"><strong>Isi Form Dibawah Ini!</strong></div>
 							<div class="card-body">
-								<form action="<?= base_url('barang/proses_ubah/' . $barang->kode_barang) ?>" id="form-tambah" method="POST">
+								<form action="<?= base_url('barang/proses_ubah/' . $barang->kode_barang) ?>" id="form-tambah" method="POST" enctype="multipart/form-data">
 									<div class="form-row">
 										<div class="form-group col-md-6">
 											<label for="kode_barang"><strong>Kode Barang</strong></label>
@@ -38,6 +38,19 @@
 										<div class="form-group col-md-6">
 											<label for="nama_barang"><strong>Nama Barang</strong></label>
 											<input type="text" name="nama_barang" placeholder="Masukkan Nama Barang" autocomplete="off"  class="form-control" required value="<?= $barang->nama_barang ?>">
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="form-group col-md-12">
+											<label><strong>Foto Barang</strong></label>
+											<?php if (!empty($barang->foto_barang) && $barang->foto_barang !== 'tidak_ada_foto.png'): ?>
+												<div class="mb-2">
+													<img src="<?= base_url('upload/' . $barang->foto_barang) ?>" style="max-height:100px;border-radius:6px;" alt="Foto saat ini">
+													<small class="d-block text-muted">Foto saat ini. Upload baru untuk mengganti.</small>
+												</div>
+											<?php endif; ?>
+											<input type="file" name="foto_barang" id="foto_barang" class="form-control" accept="image/*">
+											<small class="text-muted">Kosongkan jika tidak ingin mengganti foto.</small>
 										</div>
 									</div>
 									<div class="form-row">
